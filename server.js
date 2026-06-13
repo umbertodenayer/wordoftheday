@@ -59,12 +59,22 @@ async function fetchWord(lang) {
 async function refreshWord(lang) {
   const seed = todaySeed();
   const cacheKey = `${seed}:${lang}`;
+  let data;
   try {
-    const data = await fetchWord(lang);
+    data = await fetchWord(lang);
     cache.set(cacheKey, data);
     console.log(`Cached word of the day for ${lang} (seed ${seed}): ${data.word}`);
   } catch (e) {
     console.error(`Failed to fetch word of the day for ${lang}:`, e.message);
+    return;
+  }
+
+  try {
+    const image = await fetchImage(data.word, data.definition);
+    cache.set(`image:${seed}:${lang}`, image);
+    console.log(`Cached image for ${lang} (seed ${seed}): ${data.word}`);
+  } catch (e) {
+    console.error(`Failed to fetch image for ${lang}:`, e.message);
   }
 }
 
@@ -115,7 +125,7 @@ app.get('/api/image', async (req, res) => {
   const lang = String(req.query.lang || 'en');
   const seed = todaySeed();
   const cacheKey = `${seed}:${lang}`;
-  const imageCacheKey = `image:${seed}`;
+  const imageCacheKey = `image:${seed}:${lang}`;
 
   let image = cache.get(imageCacheKey);
   if (!image) {

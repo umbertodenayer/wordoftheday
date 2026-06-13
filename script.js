@@ -81,12 +81,13 @@ async function load(lang, force = false) {
   }
 }
 
-function imageCacheKey() {
-  return `wordOfTheDay:image:${todaySeed()}`;
+function imageCacheKey(lang) {
+  return `wordOfTheDay:image:${todaySeed()}:${lang}`;
 }
 
-async function loadImage() {
-  const key = imageCacheKey();
+async function loadImage(lang) {
+  imageEl.classList.remove('loaded');
+  const key = imageCacheKey(lang);
   const cached = localStorage.getItem(key);
   if (cached) {
     imageEl.src = cached;
@@ -94,7 +95,7 @@ async function loadImage() {
     return;
   }
   try {
-    const response = await fetch(`/api/image?lang=${encodeURIComponent(langSelect.value)}`);
+    const response = await fetch(`/api/image?lang=${encodeURIComponent(lang)}`);
     if (!response.ok) return;
     const data = await response.json();
     const src = `data:${data.mimeType};base64,${data.data}`;
@@ -106,11 +107,14 @@ async function loadImage() {
   }
 }
 
-langSelect.addEventListener('change', () => load(langSelect.value));
+langSelect.addEventListener('change', () => {
+  load(langSelect.value);
+  loadImage(langSelect.value);
+});
 
 dateEl.textContent = new Date().toLocaleDateString(undefined, {
   weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'
 });
 
 load(langSelect.value);
-loadImage();
+loadImage(langSelect.value);
