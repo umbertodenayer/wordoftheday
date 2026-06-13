@@ -49,7 +49,7 @@ let ygWidget = null;
 let hearItTriggered = false;
 
 if (window.supabase) {
-  const SUPABASE_URL = 'https://lanmsexkozkrttiydsm.supabase.co';
+  const SUPABASE_URL = 'https://lanmsexkozkrttiydtsm.supabase.co';
   const SUPABASE_ANON_KEY = 'sb_publishable_c8SjUvXE8zTZIEgB6i9hYw_uJR_4i37';
   const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
