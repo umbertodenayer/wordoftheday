@@ -98,27 +98,28 @@ function scheduleMidnightRefresh() {
 async function fetchImage(word, definition) {
   const prompt = `A clean, minimal, modern editorial illustration representing the word "${word}" (${definition}). No text or letters in the image. Soft warm color palette, flat design, lots of negative space.`;
 
-  const response = await fetch('https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-image:generateContent', {
+  const response = await fetch('https://api.openai.com/v1/images/generations', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
-      'x-goog-api-key': process.env.GEMINI_API_KEY
+      'Authorization': `Bearer ${process.env.OPENAI_API_KEY}`
     },
     body: JSON.stringify({
-      contents: [{ parts: [{ text: prompt }] }]
+      model: 'gpt-image-1',
+      prompt,
+      size: '1024x1024'
     })
   });
 
   if (!response.ok) {
     const errText = await response.text();
-    throw new Error(`Gemini API error ${response.status}: ${errText}`);
+    throw new Error(`OpenAI API error ${response.status}: ${errText}`);
   }
 
   const json = await response.json();
-  const parts = json.candidates?.[0]?.content?.parts || [];
-  const imagePart = parts.find(p => p.inlineData);
-  if (!imagePart) throw new Error('No image returned from Gemini');
-  return { mimeType: imagePart.inlineData.mimeType, data: imagePart.inlineData.data };
+  const b64 = json.data?.[0]?.b64_json;
+  if (!b64) throw new Error('No image returned from OpenAI');
+  return { mimeType: 'image/png', data: b64 };
 }
 
 app.get('/api/image', async (req, res) => {
