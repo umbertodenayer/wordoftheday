@@ -271,13 +271,11 @@ html[data-theme="dark"] #word {
 }
 
 .in-the-wild {
-  min-height: 100vh;
   width: 100%;
-  padding: 96px 64px;
+  padding: 64px 64px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
   box-sizing: border-box;
 }
 
@@ -359,11 +357,10 @@ html[data-theme="dark"] #word {
 
 .pronunciation {
   width: 100%;
-  padding: 96px 64px;
+  padding: 0 64px 64px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
   box-sizing: border-box;
 }
 
@@ -426,11 +423,10 @@ html[data-theme="dark"] #word {
 
 .hear-it {
   width: 100%;
-  padding: 96px 64px;
+  padding: 0 64px 64px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
   box-sizing: border-box;
 }
 
