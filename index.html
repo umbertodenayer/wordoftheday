@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Word of the Day</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main class="layout" id="hero">
+    <div class="col-image">
+      <img id="word-image" class="word-image" alt="" />
+    </div>
+    <div class="col-text">
+      <div class="topbar">
+        <p class="masthead"><span class="masthead-word">Word</span><span class="masthead-rest">of the day</span></p>
+        <div class="masthead-line"></div>
+        <button id="theme-toggle" class="theme-toggle" aria-label="Toggle dark mode">
+          <svg id="sun-icon" class="theme-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="4"/>
+            <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/>
+          </svg>
+          <svg id="moon-icon" class="theme-icon hidden" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+          </svg>
+        </button>
+        <div class="notify-menu">
+          <button id="notify-btn" class="theme-toggle" aria-label="Daily word notifications">
+            <svg class="theme-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/>
+              <path d="M13.73 21a2 2 0 0 1-3.46 0"/>
+            </svg>
+            <span id="notify-dot" class="notify-dot hidden"></span>
+          </button>
+        </div>
+        <div class="user-menu">
+          <button id="user-icon-btn" class="theme-toggle" aria-label="Account">
+            <svg class="theme-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="8" r="4"/>
+              <path d="M4 21c0-3.5 3.5-6 8-6s8 2.5 8 6"/>
+            </svg>
+            <span id="user-dot" class="user-dot hidden"></span>
+          </button>
+          <div id="user-dropdown" class="user-dropdown hidden">
+            <div id="dropdown-signed-out">
+              <button id="open-signin-btn" class="user-dropdown-item">Sign In</button>
+              <button id="open-signup-btn" class="user-dropdown-item">Sign Up</button>
+            </div>
+            <div id="dropdown-signed-in" class="hidden">
+              <p id="user-email" class="user-dropdown-email"></p>
+              <button id="my-words-btn" class="user-dropdown-item">My Words</button>
+              <button id="settings-btn" class="user-dropdown-item">Settings</button>
+              <div class="user-dropdown-divider"></div>
+              <button id="open-change-password-btn" class="user-dropdown-item">Change Password</button>
+              <div class="user-dropdown-divider"></div>
+              <button id="sign-out-btn" class="user-dropdown-item">Sign Out</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="content-middle">
+        <div class="accent-bar"></div>
+        <h1 id="word"></h1>
+        <p id="ipa" class="ipa"></p>
+        <p id="pos" class="pos"></p>
+        <p id="definition" class="definition"></p>
+        <hr class="divider">
+        <div class="etymology">
+          <p class="etymology-label">Etymology</p>
+          <p id="etymology" class="etymology-text"></p>
+        </div>
+        <p id="example" class="example"></p>
+        <p id="source" class="source"></p>
+      </div>
+      <p id="date" class="date"></p>
+    </div>
+  </main>
+
+  <section class="in-the-wild">
+    <hr class="section-rule">
+    <p class="label section-label">In The Wild</p>
+    <div class="wild-cards">
+      <article class="wild-card">
+        <p class="wild-pub">The Paris Review</p>
+        <p class="wild-excerpt">"There was something almost <em>susurrous</em> about the way the pages turned, a whisper passed from hand to hand across the quiet room."</p>
+        <p class="wild-source">— Fiction, Issue 214</p>
+      </article>
+      <article class="wild-card">
+        <p class="wild-pub">The Atlantic</p>
+        <p class="wild-excerpt">"A <em>susurrous</em> wind moved through the orchard, carrying with it the faint, dry rattle of late autumn leaves."</p>
+        <p class="wild-source">— Culture, October Issue</p>
+      </article>
+      <article class="wild-card">
+        <p class="wild-pub">London Review of Books</p>
+        <p class="wild-excerpt">"Beneath the city's roar lies a <em>susurrous</em> undercurrent — pipes, wires, and the breath of a million quiet rooms."</p>
+        <p class="wild-source">— Essays, Spring Edition</p>
+      </article>
+    </div>
+    <hr class="section-rule">
+  </section>
+
+  <section class="pronunciation hidden" id="pronunciation-section">
+    <p class="label section-label">Pronunciation</p>
+    <div class="pronunciation-row">
+      <div class="audio-player">
+        <button id="pronunciation-btn" class="pronunciation-btn" aria-label="Play pronunciation">
+          <svg id="play-icon" class="icon" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+          <svg id="pause-icon" class="icon hidden" viewBox="0 0 24 24" fill="currentColor"><path d="M6 5h4v14H6zM14 5h4v14h-4z"/></svg>
+        </button>
+        <div id="waveform" class="waveform"></div>
+      </div>
+      <div class="rating-spacer"></div>
+      <div class="rating">
+        <div class="rating-item">
+          <button id="thumb-up-btn" class="thumb-btn" aria-label="Like">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3H14z"/><path d="M7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"/></svg>
+          </button>
+          <span id="like-count" class="rating-count">0</span>
+        </div>
+        <div class="rating-item">
+          <button id="thumb-down-btn" class="thumb-btn" aria-label="Dislike">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 15v4a3 3 0 0 0 3 3l4-9V2H5.72a2 2 0 0 0-2 1.7l-1.38 9a2 2 0 0 0 2 2.3H10z"/><path d="M17 2h3a2 2 0 0 1 2 2v7a2 2 0 0 1-2 2h-3"/></svg>
+          </button>
+          <span id="dislike-count" class="rating-count">0</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="hear-it hidden" id="hear-it-section">
+    <p class="label section-label">Hear It</p>
+    <div id="youglish-widget"></div>
+  </section>
+
+  <footer class="site-footer">
+    <a href="archive.html" class="archive-link">Archive</a>
+  </footer>
+
+  <div id="signin-modal" class="auth-modal hidden">
+    <div class="auth-modal-backdrop"></div>
+    <div class="auth-modal-card">
+      <button class="auth-modal-close" aria-label="Close">&times;</button>
+      <h2 class="auth-modal-title">Sign In</h2>
+      <form id="signin-form" class="auth-form">
+        <input type="email" class="auth-input" placeholder="Email" required autocomplete="email">
+        <div class="auth-password-wrap">
+          <input type="password" class="auth-input" placeholder="Password" required autocomplete="current-password">
+          <button type="button" class="auth-eye-toggle" aria-label="Toggle password visibility">
+            <svg class="eye-icon eye-open" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7-11-7-11-7z"/>
+              <circle cx="12" cy="12" r="3"/>
+            </svg>
+            <svg class="eye-icon eye-closed hidden" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M17.94 17.94A10.94 10.94 0 0 1 12 19c-7 0-11-7-11-7a18.5 18.5 0 0 1 4.22-5.06M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 7 11 7a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/>
+              <line x1="1" y1="1" x2="23" y2="23"/>
+            </svg>
+          </button>
+        </div>
+        <p class="auth-error hidden"></p>
+        <button type="submit" class="auth-submit">Sign In</button>
+      </form>
+    </div>
+  </div>
+
+  <div id="signup-modal" class="auth-modal hidden">
+    <div class="auth-modal-backdrop"></div>
+    <div class="auth-modal-card">
+      <button class="auth-modal-close" aria-label="Close">&times;</button>
+      <h2 class="auth-modal-title">Sign Up</h2>
+      <form id="signup-form" class="auth-form">
+        <input type="email" class="auth-input" placeholder="Email" required autocomplete="email">
+        <div class="auth-password-wrap">
+          <input type="password" class="auth-input" placeholder="Password" required autocomplete="new-password">
+          <button type="button" class="auth-eye-toggle" aria-label="Toggle password visibility">
+            <svg class="eye-icon eye-open" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7-11-7-11-7z"/>
+              <circle cx="12" cy="12" r="3"/>
+            </svg>
+            <svg class="eye-icon eye-closed hidden" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M17.94 17.94A10.94 10.94 0 0 1 12 19c-7 0-11-7-11-7a18.5 18.5 0 0 1 4.22-5.06M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 7 11 7a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/>
+              <line x1="1" y1="1" x2="23" y2="23"/>
+            </svg>
+          </button>
+        </div>
+        <p class="auth-error hidden"></p>
+        <button type="submit" class="auth-submit">Sign Up</button>
+      </form>
+    </div>
+  </div>
+
+  <div id="change-password-modal" class="auth-modal hidden">
+    <div class="auth-modal-backdrop"></div>
+    <div class="auth-modal-card">
+      <button class="auth-modal-close" aria-label="Close">&times;</button>
+      <h2 class="auth-modal-title">Change Password</h2>
+      <form id="change-password-form" class="auth-form">
+        <div class="auth-password-wrap">
+          <input type="password" class="auth-input" placeholder="New Password" required autocomplete="new-password">
+          <button type="button" class="auth-eye-toggle" aria-label="Toggle password visibility">
+            <svg class="eye-icon eye-open" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7-11-7-11-7z"/>
+              <circle cx="12" cy="12" r="3"/>
+            </svg>
+            <svg class="eye-icon eye-closed hidden" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M17.94 17.94A10.94 10.94 0 0 1 12 19c-7 0-11-7-11-7a18.5 18.5 0 0 1 4.22-5.06M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 7 11 7a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/>
+              <line x1="1" y1="1" x2="23" y2="23"/>
+            </svg>
+          </button>
+        </div>
+        <div class="auth-password-wrap">
+          <input type="password" class="auth-input" placeholder="Confirm New Password" required autocomplete="new-password">
+          <button type="button" class="auth-eye-toggle" aria-label="Toggle password visibility">
+            <svg class="eye-icon eye-open" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7-11-7-11-7z"/>
+              <circle cx="12" cy="12" r="3"/>
+            </svg>
+            <svg class="eye-icon eye-closed hidden" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M17.94 17.94A10.94 10.94 0 0 1 12 19c-7 0-11-7-11-7a18.5 18.5 0 0 1 4.22-5.06M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 7 11 7a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/>
+              <line x1="1" y1="1" x2="23" y2="23"/>
+            </svg>
+          </button>
+        </div>
+        <p class="auth-error hidden"></p>
+        <button type="submit" class="auth-submit">Update Password</button>
+      </form>
+    </div>
+  </div>
+
+  <div id="my-words-modal" class="auth-modal hidden">
+    <div class="auth-modal-backdrop"></div>
+    <div class="auth-modal-card">
+      <button class="auth-modal-close" aria-label="Close">&times;</button>
+      <h2 class="auth-modal-title">My Words</h2>
+      <div id="my-words-list" class="my-words-list"></div>
+    </div>
+  </div>
+
+  <div id="settings-modal" class="auth-modal hidden">
+    <div class="auth-modal-backdrop"></div>
+    <div class="auth-modal-card">
+      <button class="auth-modal-close" aria-label="Close">&times;</button>
+      <h2 class="auth-modal-title">Settings</h2>
+      <div class="settings-list">
+        <div class="settings-row">
+          <span class="settings-label">Dark mode by default</span>
+          <button id="setting-dark-mode" class="toggle-switch" role="switch" aria-checked="false">
+            <span class="toggle-knob"></span>
+          </button>
+        </div>
+        <div class="settings-row">
+          <span class="settings-label">Weekly email digest</span>
+          <button id="setting-weekly-email" class="toggle-switch" role="switch" aria-checked="false">
+            <span class="toggle-knob"></span>
+          </button>
+        </div>
+        <div class="settings-row">
+          <span class="settings-label">Compact view</span>
+          <button id="setting-compact-view" class="toggle-switch" role="switch" aria-checked="false">
+            <span class="toggle-knob"></span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="auth-toast" class="auth-toast hidden"></div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="https://youglish.com/apiv2/youglish.js" async></script>
+  <script src="script.js"></script>
+</body>
+</html>

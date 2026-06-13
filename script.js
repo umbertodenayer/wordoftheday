@@ -274,6 +274,28 @@ if (window.supabase) {
     `).join('');
   });
 
+  const myStatsBtn = document.getElementById('my-stats-btn');
+  const myStatsModal = document.getElementById('my-stats-modal');
+
+  myStatsBtn.addEventListener('click', async () => {
+    closeDropdown();
+    myStatsModal.classList.remove('hidden');
+
+    const streak = parseInt(localStorage.getItem('wotd_streak'), 10) || 0;
+    document.getElementById('stat-streak').textContent = streak;
+    document.getElementById('stat-discovered').textContent =
+      parseInt(localStorage.getItem('wotd_discovered'), 10) || streak;
+    document.getElementById('stat-member-since').textContent = new Date(sbSession.user.created_at)
+      .toLocaleDateString('en-US', { month: 'long', year: 'numeric' });
+
+    document.getElementById('stat-liked').textContent = '…';
+    const { count } = await supabase
+      .from('user_liked_words')
+      .select('*', { count: 'exact', head: true })
+      .eq('user_id', sbSession.user.id);
+    document.getElementById('stat-liked').textContent = count ?? 0;
+  });
+
   settingsBtn.addEventListener('click', async () => {
     closeDropdown();
 
@@ -710,3 +732,51 @@ thumbDownBtn.addEventListener('click', () => castVote('dislike'));
 
 load();
 loadImage();
+
+// --- Daily word notifications ---
+const notifyBtn = document.getElementById('notify-btn');
+const notifyDot = document.getElementById('notify-dot');
+const NOTIFY_PREF_KEY = 'wotd_notifications';
+const NOTIFY_SEEN_KEY = 'wotd_last_seen';
+
+if (notifyBtn) {
+  if (!('Notification' in window)) {
+    // Browser doesn't support notifications — hide the bell entirely.
+    notifyBtn.classList.add('hidden');
+  } else {
+    const notificationsEnabled = () =>
+      Notification.permission === 'granted' &&
+      localStorage.getItem(NOTIFY_PREF_KEY) === 'true';
+
+    const refreshNotifyDot = () => {
+      notifyDot.classList.toggle('hidden', !notificationsEnabled());
+    };
+
+    refreshNotifyDot();
+
+    notifyBtn.addEventListener('click', () => {
+      if (Notification.permission === 'granted') {
+        // Already permitted — toggle the saved preference on/off.
+        const enabled = localStorage.getItem(NOTIFY_PREF_KEY) === 'true';
+        localStorage.setItem(NOTIFY_PREF_KEY, enabled ? 'false' : 'true');
+        refreshNotifyDot();
+      } else if (Notification.permission !== 'denied') {
+        // Trigger the browser permission request dialog.
+        Notification.requestPermission().then((permission) => {
+          if (permission === 'granted') {
+            localStorage.setItem(NOTIFY_PREF_KEY, 'true');
+          }
+          refreshNotifyDot();
+        });
+      }
+    });
+
+    // On load: if notifications are enabled and today's word hasn't been seen
+    // yet, show a reminder notification.
+    const today = String(todaySeed());
+    if (notificationsEnabled() && localStorage.getItem(NOTIFY_SEEN_KEY) !== today) {
+      new Notification("📖 Today's word is waiting for you — dailywords.cc");
+    }
+    localStorage.setItem(NOTIFY_SEEN_KEY, today);
+  }
+}
