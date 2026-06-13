@@ -1,5 +1,5 @@
 :root {
-  --bg: #f5f3ef;
+  --bg: #f5f2ee;
   --card: #ffffff;
   --text: #1f1d1a;
   --muted: #847f78;
@@ -22,14 +22,10 @@ body {
 }
 
 .card {
-  max-width: 1100px;
+  max-width: 700px;
   width: 100%;
-  background: var(--card);
-  border: 1px solid var(--border);
-  border-radius: 16px;
-  padding: 64px 80px;
+  padding: 64px 24px;
   text-align: center;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
 }
 
 .topbar {
@@ -62,10 +58,11 @@ body {
 
 .word-image {
   display: none;
-  max-width: 100%;
-  max-height: 320px;
+  width: 100%;
+  max-width: 600px;
   border-radius: 12px;
-  margin: 0 0 24px;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+  margin: 0 auto 32px;
 }
 
 .word-image.loaded {
@@ -76,7 +73,7 @@ body {
   font-family: 'Fraunces', serif;
   font-size: 84px;
   font-weight: 600;
-  margin: 8px 0 4px;
+  margin: 8px 0 24px;
   text-transform: lowercase;
 }
 
@@ -90,15 +87,15 @@ body {
 .definition {
   font-size: 24px;
   line-height: 1.6;
-  margin: 0 0 24px;
+  margin: 0 0 28px;
 }
 
 .etymology {
-  background: var(--bg);
+  background: var(--card);
   border: 1px solid var(--border);
   border-radius: 12px;
-  padding: 16px 20px;
-  margin: 0 0 24px;
+  padding: 20px 24px;
+  margin: 0 0 28px;
   text-align: left;
 }
 
@@ -122,7 +119,7 @@ body {
   font-size: 18px;
   line-height: 1.6;
   color: var(--muted);
-  margin: 0 0 32px;
+  margin: 0 0 8px;
   font-style: italic;
 }
 
@@ -133,14 +130,14 @@ body {
 .source {
   font-size: 13px;
   color: var(--muted);
-  margin: -28px 0 28px;
+  margin: 0 0 28px;
   text-align: right;
 }
 
 .date {
   font-size: 13px;
   color: var(--muted);
-  margin: 0 0 16px;
+  margin: 24px 0 0;
   letter-spacing: 0.05em;
 }
 
