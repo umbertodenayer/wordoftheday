@@ -8,6 +8,42 @@ const sourceEl = document.getElementById('source');
 const dateEl = document.getElementById('date');
 const imageEl = document.getElementById('word-image');
 
+const themeToggle = document.getElementById('theme-toggle');
+const sunIcon = document.getElementById('sun-icon');
+const moonIcon = document.getElementById('moon-icon');
+
+function applyTheme(theme, animate) {
+  document.documentElement.setAttribute('data-theme', theme);
+  const showIcon = theme === 'dark' ? moonIcon : sunIcon;
+  const hideIcon = theme === 'dark' ? sunIcon : moonIcon;
+
+  if (animate) {
+    hideIcon.classList.add('spin-out');
+    setTimeout(() => {
+      hideIcon.classList.add('hidden');
+      hideIcon.classList.remove('spin-out');
+      showIcon.classList.remove('hidden');
+      showIcon.classList.add('spin-out');
+      requestAnimationFrame(() => {
+        showIcon.classList.remove('spin-out');
+      });
+    }, 300);
+  } else {
+    hideIcon.classList.add('hidden');
+    showIcon.classList.remove('hidden');
+  }
+}
+
+const savedTheme = localStorage.getItem('wordOfTheDay:theme') || 'light';
+applyTheme(savedTheme, false);
+
+themeToggle.addEventListener('click', () => {
+  const current = document.documentElement.getAttribute('data-theme') || 'light';
+  const next = current === 'dark' ? 'light' : 'dark';
+  localStorage.setItem('wordOfTheDay:theme', next);
+  applyTheme(next, true);
+});
+
 let currentWord = null;
 let ygWidget = null;
 let hearItTriggered = false;
