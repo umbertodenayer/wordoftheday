@@ -56,86 +56,150 @@ if (window.supabase) {
   const userIconBtn = document.getElementById('user-icon-btn');
   const userDot = document.getElementById('user-dot');
   const userDropdown = document.getElementById('user-dropdown');
+  const dropdownSignedOut = document.getElementById('dropdown-signed-out');
+  const dropdownSignedIn = document.getElementById('dropdown-signed-in');
+  const userEmailEl = document.getElementById('user-email');
+  const openSigninBtn = document.getElementById('open-signin-btn');
+  const openSignupBtn = document.getElementById('open-signup-btn');
   const signOutBtn = document.getElementById('sign-out-btn');
-  const authModal = document.getElementById('auth-modal');
-  const authModalBackdrop = authModal.querySelector('.auth-modal-backdrop');
-  const authModalClose = document.getElementById('auth-modal-close');
-  const authTabs = document.querySelectorAll('.auth-tab');
-  const authForm = document.getElementById('auth-form');
-  const authEmail = document.getElementById('auth-email');
-  const authPassword = document.getElementById('auth-password');
-  const authError = document.getElementById('auth-error');
-  const authSubmit = document.getElementById('auth-submit');
+  const authToast = document.getElementById('auth-toast');
 
-  let authMode = 'sign-in';
+  const signinModal = document.getElementById('signin-modal');
+  const signupModal = document.getElementById('signup-modal');
+  const signinForm = document.getElementById('signin-form');
+  const signupForm = document.getElementById('signup-form');
 
-  const setAuthMode = (mode) => {
-    authMode = mode;
-    authTabs.forEach((tab) => tab.classList.toggle('active', tab.dataset.tab === mode));
-    authSubmit.textContent = mode === 'sign-in' ? 'Sign In' : 'Sign Up';
-    authError.classList.add('hidden');
-    authError.textContent = '';
+  const showToast = (message) => {
+    authToast.textContent = message;
+    authToast.classList.remove('hidden');
+    requestAnimationFrame(() => authToast.classList.add('visible'));
+    setTimeout(() => {
+      authToast.classList.remove('visible');
+      setTimeout(() => authToast.classList.add('hidden'), 300);
+    }, 4000);
   };
 
-  const openAuthModal = () => {
-    setAuthMode('sign-in');
-    authForm.reset();
-    authModal.classList.remove('hidden');
+  const closeDropdown = () => {
+    userDropdown.classList.remove('visible');
+    setTimeout(() => userDropdown.classList.add('hidden'), 200);
   };
 
-  const closeAuthModal = () => {
-    authModal.classList.add('hidden');
+  const openDropdown = () => {
+    userDropdown.classList.remove('hidden');
+    requestAnimationFrame(() => userDropdown.classList.add('visible'));
   };
 
-  authTabs.forEach((tab) => {
-    tab.addEventListener('click', () => setAuthMode(tab.dataset.tab));
+  const openModal = (modal) => {
+    modal.querySelector('form').reset();
+    const error = modal.querySelector('.auth-error');
+    error.classList.add('hidden');
+    error.textContent = '';
+    modal.querySelectorAll('.eye-open').forEach((icon) => icon.classList.remove('hidden'));
+    modal.querySelectorAll('.eye-closed').forEach((icon) => icon.classList.add('hidden'));
+    modal.querySelectorAll('input[type="text"]').forEach((input) => { input.type = 'password'; });
+    modal.classList.remove('hidden');
+  };
+
+  const closeModal = (modal) => {
+    modal.classList.add('hidden');
+  };
+
+  document.querySelectorAll('.auth-modal').forEach((modal) => {
+    modal.querySelector('.auth-modal-backdrop').addEventListener('click', () => closeModal(modal));
+    modal.querySelector('.auth-modal-close').addEventListener('click', () => closeModal(modal));
   });
 
-  authModalBackdrop.addEventListener('click', closeAuthModal);
-  authModalClose.addEventListener('click', closeAuthModal);
+  document.querySelectorAll('.auth-eye-toggle').forEach((toggle) => {
+    toggle.addEventListener('click', () => {
+      const input = toggle.parentElement.querySelector('.auth-input');
+      const eyeOpen = toggle.querySelector('.eye-open');
+      const eyeClosed = toggle.querySelector('.eye-closed');
+      const reveal = input.type === 'password';
+      input.type = reveal ? 'text' : 'password';
+      eyeOpen.classList.toggle('hidden', reveal);
+      eyeClosed.classList.toggle('hidden', !reveal);
+    });
+  });
 
-  authForm.addEventListener('submit', async (e) => {
+  openSigninBtn.addEventListener('click', () => {
+    closeDropdown();
+    openModal(signinModal);
+  });
+
+  openSignupBtn.addEventListener('click', () => {
+    closeDropdown();
+    openModal(signupModal);
+  });
+
+  signinForm.addEventListener('submit', async (e) => {
     e.preventDefault();
-    authError.classList.add('hidden');
-    const email = authEmail.value;
-    const password = authPassword.value;
+    const [emailInput, passwordInput] = signinForm.querySelectorAll('.auth-input');
+    const errorEl = signinForm.querySelector('.auth-error');
+    errorEl.classList.add('hidden');
 
-    const { error } = authMode === 'sign-in'
-      ? await supabase.auth.signInWithPassword({ email, password })
-      : await supabase.auth.signUp({ email, password });
+    const { error } = await supabase.auth.signInWithPassword({
+      email: emailInput.value,
+      password: passwordInput.value
+    });
 
     if (error) {
-      authError.textContent = error.message;
-      authError.classList.remove('hidden');
+      errorEl.textContent = error.message;
+      errorEl.classList.remove('hidden');
       return;
     }
 
-    closeAuthModal();
+    closeModal(signinModal);
+  });
+
+  signupForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const [emailInput, passwordInput] = signupForm.querySelectorAll('.auth-input');
+    const errorEl = signupForm.querySelector('.auth-error');
+    errorEl.classList.add('hidden');
+
+    const { error } = await supabase.auth.signUp({
+      email: emailInput.value,
+      password: passwordInput.value
+    });
+
+    if (error) {
+      errorEl.textContent = error.message;
+      errorEl.classList.remove('hidden');
+      return;
+    }
+
+    closeModal(signupModal);
+    showToast('Check your email to confirm your account before signing in.');
   });
 
   const updateUserUI = (session) => {
-    userDot.classList.toggle('hidden', !session);
+    const signedIn = !!session;
+    userDot.classList.toggle('hidden', !signedIn);
+    dropdownSignedOut.classList.toggle('hidden', signedIn);
+    dropdownSignedIn.classList.toggle('hidden', !signedIn);
+    if (signedIn) {
+      userEmailEl.textContent = session.user.email;
+    }
   };
 
-  userIconBtn.addEventListener('click', async () => {
-    const { data } = await supabase.auth.getSession();
-    if (data.session) {
-      userDropdown.classList.toggle('hidden');
+  userIconBtn.addEventListener('click', (e) => {
+    e.stopPropagation();
+    if (userDropdown.classList.contains('hidden')) {
+      openDropdown();
     } else {
-      userDropdown.classList.add('hidden');
-      openAuthModal();
+      closeDropdown();
     }
   });
 
   document.addEventListener('click', (e) => {
-    if (!e.target.closest('.user-menu')) {
-      userDropdown.classList.add('hidden');
+    if (!e.target.closest('.user-menu') && !userDropdown.classList.contains('hidden')) {
+      closeDropdown();
     }
   });
 
   signOutBtn.addEventListener('click', async () => {
     await supabase.auth.signOut();
-    userDropdown.classList.add('hidden');
+    closeDropdown();
   });
 
   supabase.auth.onAuthStateChange((_event, session) => {

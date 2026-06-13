@@ -36,7 +36,15 @@
             <span id="user-dot" class="user-dot hidden"></span>
           </button>
           <div id="user-dropdown" class="user-dropdown hidden">
-            <button id="sign-out-btn" class="user-dropdown-item">Sign out</button>
+            <div id="dropdown-signed-out">
+              <button id="open-signin-btn" class="user-dropdown-item">Sign In</button>
+              <button id="open-signup-btn" class="user-dropdown-item">Sign Up</button>
+            </div>
+            <div id="dropdown-signed-in" class="hidden">
+              <p id="user-email" class="user-dropdown-email"></p>
+              <div class="user-dropdown-divider"></div>
+              <button id="sign-out-btn" class="user-dropdown-item">Sign Out</button>
+            </div>
           </div>
         </div>
       </div>
@@ -97,22 +105,59 @@
     <div id="youglish-widget"></div>
   </section>
 
-  <div id="auth-modal" class="auth-modal hidden">
+  <div id="signin-modal" class="auth-modal hidden">
     <div class="auth-modal-backdrop"></div>
     <div class="auth-modal-card">
-      <button id="auth-modal-close" class="auth-modal-close" aria-label="Close">&times;</button>
-      <div class="auth-tabs">
-        <button class="auth-tab active" data-tab="sign-in">Sign In</button>
-        <button class="auth-tab" data-tab="sign-up">Sign Up</button>
-      </div>
-      <form id="auth-form" class="auth-form">
-        <input type="email" id="auth-email" class="auth-input" placeholder="Email" required autocomplete="email">
-        <input type="password" id="auth-password" class="auth-input" placeholder="Password" required autocomplete="current-password">
-        <p id="auth-error" class="auth-error hidden"></p>
-        <button type="submit" id="auth-submit" class="auth-submit">Sign In</button>
+      <button class="auth-modal-close" aria-label="Close">&times;</button>
+      <h2 class="auth-modal-title">Sign In</h2>
+      <form id="signin-form" class="auth-form">
+        <input type="email" class="auth-input" placeholder="Email" required autocomplete="email">
+        <div class="auth-password-wrap">
+          <input type="password" class="auth-input" placeholder="Password" required autocomplete="current-password">
+          <button type="button" class="auth-eye-toggle" aria-label="Toggle password visibility">
+            <svg class="eye-icon eye-open" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7-11-7-11-7z"/>
+              <circle cx="12" cy="12" r="3"/>
+            </svg>
+            <svg class="eye-icon eye-closed hidden" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M17.94 17.94A10.94 10.94 0 0 1 12 19c-7 0-11-7-11-7a18.5 18.5 0 0 1 4.22-5.06M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 7 11 7a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/>
+              <line x1="1" y1="1" x2="23" y2="23"/>
+            </svg>
+          </button>
+        </div>
+        <p class="auth-error hidden"></p>
+        <button type="submit" class="auth-submit">Sign In</button>
       </form>
     </div>
   </div>
+
+  <div id="signup-modal" class="auth-modal hidden">
+    <div class="auth-modal-backdrop"></div>
+    <div class="auth-modal-card">
+      <button class="auth-modal-close" aria-label="Close">&times;</button>
+      <h2 class="auth-modal-title">Sign Up</h2>
+      <form id="signup-form" class="auth-form">
+        <input type="email" class="auth-input" placeholder="Email" required autocomplete="email">
+        <div class="auth-password-wrap">
+          <input type="password" class="auth-input" placeholder="Password" required autocomplete="new-password">
+          <button type="button" class="auth-eye-toggle" aria-label="Toggle password visibility">
+            <svg class="eye-icon eye-open" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7-11-7-11-7z"/>
+              <circle cx="12" cy="12" r="3"/>
+            </svg>
+            <svg class="eye-icon eye-closed hidden" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M17.94 17.94A10.94 10.94 0 0 1 12 19c-7 0-11-7-11-7a18.5 18.5 0 0 1 4.22-5.06M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 7 11 7a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/>
+              <line x1="1" y1="1" x2="23" y2="23"/>
+            </svg>
+          </button>
+        </div>
+        <p class="auth-error hidden"></p>
+        <button type="submit" class="auth-submit">Sign Up</button>
+      </form>
+    </div>
+  </div>
+
+  <div id="auth-toast" class="auth-toast hidden"></div>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="https://youglish.com/apiv2/youglish.js" async></script>
