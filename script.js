@@ -163,9 +163,8 @@ const cardObserver = new IntersectionObserver((entries) => {
 
 wildCards.forEach((card) => cardObserver.observe(card));
 
-const hearItSection = document.querySelector('.hear-it');
+const hearItSection = document.getElementById('hear-it-section');
 const youglishWidgetEl = document.getElementById('youglish-widget');
-const hearItFallback = document.getElementById('hear-it-fallback');
 
 function onYouglishAPIReady() {
   ygWidget = new YG.Widget('youglish-widget', {
@@ -174,11 +173,9 @@ function onYouglishAPIReady() {
     events: {
       onFetchDone: (e) => {
         if (e.totalResult === 0) {
-          youglishWidgetEl.classList.add('hidden');
-          hearItFallback.classList.add('visible');
+          hearItSection.classList.add('hidden');
         } else {
-          youglishWidgetEl.classList.remove('hidden');
-          hearItFallback.classList.remove('visible');
+          hearItSection.classList.remove('hidden');
         }
       }
     }

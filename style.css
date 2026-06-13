@@ -324,26 +324,15 @@ body {
   box-sizing: border-box;
 }
 
+.hear-it.hidden {
+  min-height: 0;
+  padding: 0;
+  overflow: hidden;
+}
+
 #youglish-widget {
   width: 100%;
   max-width: 800px;
-}
-
-#youglish-widget.hidden {
-  display: none;
-}
-
-.hear-it-fallback {
-  display: none;
-  margin: 0;
-  font-size: 16px;
-  font-style: italic;
-  color: var(--muted);
-  text-align: center;
-}
-
-.hear-it-fallback.visible {
-  display: block;
 }
 
 @media (max-width: 820px) {
