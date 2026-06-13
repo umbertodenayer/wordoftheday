@@ -286,25 +286,40 @@ html[data-theme="dark"] #word {
   text-align: center;
 }
 
+.section-rule {
+  border: none;
+  border-top: 1px solid var(--border);
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 0 48px;
+}
+
+.in-the-wild .section-rule:last-child {
+  margin: 48px 0 0;
+}
+
 .wild-cards {
   display: flex;
-  gap: 32px;
+  gap: 48px;
   max-width: 1200px;
   width: 100%;
 }
 
 .wild-card {
   flex: 1;
-  background: var(--card);
-  border: 1px solid var(--border);
-  border-radius: 12px;
-  padding: 32px;
+  padding: 0 0 0 48px;
+  border-left: 1px solid var(--border);
   display: flex;
   flex-direction: column;
   gap: 20px;
   opacity: 0;
   transform: translateY(20px);
   transition: opacity 0.6s ease, transform 0.6s ease;
+}
+
+.wild-card:first-child {
+  padding-left: 0;
+  border-left: none;
 }
 
 .wild-card.visible {
