@@ -1,3 +1,6 @@
+const express = require('express');
+const path = require('path');
+
 const LANG_NAMES = {
   en: 'English',
   es: 'Spanish',
@@ -11,7 +14,9 @@ function todaySeed() {
   return Date.UTC(now.getFullYear(), now.getMonth(), now.getDate()) / 86400000;
 }
 
-export default async function handler(req, res) {
+const app = express();
+
+app.get('/api/word', async (req, res) => {
   const lang = String(req.query.lang || 'en');
   const languageName = LANG_NAMES[lang] || LANG_NAMES.en;
   const seed = todaySeed();
@@ -51,9 +56,14 @@ export default async function handler(req, res) {
     const text = json.content[0].text.trim();
     const data = JSON.parse(text);
 
-    res.setHeader('Cache-Control', 's-maxage=3600, stale-while-revalidate');
-    res.status(200).json(data);
+    res.set('Cache-Control', 's-maxage=3600, stale-while-revalidate');
+    res.json(data);
   } catch (e) {
     res.status(500).json({ error: e.message });
   }
-}
+});
+
+app.use(express.static(path.join(__dirname)));
+
+const port = process.env.PORT || 3000;
+app.listen(port, () => console.log(`Listening on port ${port}`));
