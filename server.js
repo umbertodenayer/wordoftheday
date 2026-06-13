@@ -196,7 +196,9 @@ app.get('/api/word', async (req, res) => {
   res.json(data);
 });
 
-app.use(express.static(path.join(__dirname)));
+app.use(express.static(path.join(__dirname), {
+  setHeaders: (res) => res.set('Cache-Control', 'no-cache')
+}));
 
 const port = process.env.PORT || 3000;
 app.listen(port, () => {
