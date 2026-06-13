@@ -53,7 +53,8 @@ app.get('/api/word', async (req, res) => {
     }
 
     const json = await response.json();
-    const text = json.content[0].text.trim();
+    let text = json.content[0].text.trim();
+    text = text.replace(/^```(?:json)?\s*/i, '').replace(/```\s*$/, '').trim();
     const data = JSON.parse(text);
 
     res.set('Cache-Control', 's-maxage=3600, stale-while-revalidate');
