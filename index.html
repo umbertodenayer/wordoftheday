@@ -13,14 +13,21 @@
   <main class="card">
     <div class="topbar">
       <p class="label">Word of the Day</p>
-      <div class="lang-toggle">
-        <button id="lang-en" class="lang-btn active" data-lang="en">EN</button>
-        <button id="lang-nl" class="lang-btn" data-lang="nl">NL</button>
-      </div>
+      <select id="lang-select" class="lang-select">
+        <option value="en">English</option>
+        <option value="es">Español</option>
+        <option value="fr">Français</option>
+        <option value="de">Deutsch</option>
+        <option value="nl">Nederlands</option>
+      </select>
     </div>
     <h1 id="word"></h1>
     <p id="pos" class="pos"></p>
     <p id="definition" class="definition"></p>
+    <div class="etymology">
+      <p class="etymology-label">Etymology</p>
+      <p id="etymology" class="etymology-text"></p>
+    </div>
     <p id="example" class="example"></p>
     <p id="date" class="date"></p>
   </main>

@@ -11,20 +11,19 @@ const wordEl = document.getElementById('word');
 const posEl = document.getElementById('pos');
 const definitionEl = document.getElementById('definition');
 const exampleEl = document.getElementById('example');
+const etymologyEl = document.getElementById('etymology');
+const langSelect = document.getElementById('lang-select');
 
 function render(lang) {
-  const data = lang === 'nl' ? entry.nl : entry;
+  const data = lang === 'en' ? entry : entry.translations[lang];
   wordEl.textContent = data.word;
   posEl.textContent = data.pos;
   definitionEl.textContent = data.definition;
   exampleEl.textContent = data.example;
-
-  document.getElementById('lang-en').classList.toggle('active', lang === 'en');
-  document.getElementById('lang-nl').classList.toggle('active', lang === 'nl');
+  etymologyEl.textContent = entry.etymology;
 }
 
-document.getElementById('lang-en').addEventListener('click', () => render('en'));
-document.getElementById('lang-nl').addEventListener('click', () => render('nl'));
+langSelect.addEventListener('change', () => render(langSelect.value));
 
 render('en');
 

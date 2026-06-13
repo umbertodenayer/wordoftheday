@@ -1,10 +1,10 @@
 :root {
-  --bg: #0e0f11;
-  --card: #17181b;
-  --text: #f2f1ec;
-  --muted: #9a9a9f;
-  --accent: #e8b96a;
-  --border: #2a2b2f;
+  --bg: #f5f3ef;
+  --card: #ffffff;
+  --text: #1f1d1a;
+  --muted: #847f78;
+  --accent: #b5793b;
+  --border: #e7e2da;
 }
 
 * { box-sizing: border-box; }
@@ -29,6 +29,7 @@ body {
   border-radius: 16px;
   padding: 48px 40px;
   text-align: center;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
 }
 
 .topbar {
@@ -47,30 +48,16 @@ body {
   font-weight: 500;
 }
 
-.lang-toggle {
-  display: flex;
-  gap: 4px;
+.lang-select {
+  font-family: 'Inter', system-ui, sans-serif;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text);
+  background: var(--bg);
   border: 1px solid var(--border);
   border-radius: 8px;
-  padding: 2px;
-}
-
-.lang-btn {
-  border: none;
-  background: transparent;
-  color: var(--muted);
-  font-family: 'Inter', system-ui, sans-serif;
-  font-size: 12px;
-  font-weight: 600;
-  letter-spacing: 0.05em;
-  padding: 4px 10px;
-  border-radius: 6px;
+  padding: 6px 10px;
   cursor: pointer;
-}
-
-.lang-btn.active {
-  background: var(--accent);
-  color: #1a1a1a;
 }
 
 #word {
@@ -82,7 +69,7 @@ body {
 }
 
 .pos {
-  margin: 0 0 28px;
+  margin: 0 0 24px;
   color: var(--muted);
   font-style: italic;
   font-size: 15px;
@@ -91,7 +78,32 @@ body {
 .definition {
   font-size: 19px;
   line-height: 1.6;
-  margin: 0 0 20px;
+  margin: 0 0 24px;
+}
+
+.etymology {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 16px 20px;
+  margin: 0 0 24px;
+  text-align: left;
+}
+
+.etymology-label {
+  margin: 0 0 6px;
+  font-size: 12px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--accent);
+  font-weight: 600;
+}
+
+.etymology-text {
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.6;
+  color: var(--muted);
 }
 
 .example {
