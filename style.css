@@ -138,10 +138,18 @@ body {
   color: #1a1a1a;
 }
 
+html[data-theme="dark"] .masthead-rest {
+  color: #888;
+}
+
 .masthead-line {
   flex: 1;
   height: 1px;
   background: #e0e0e0;
+}
+
+html[data-theme="dark"] .masthead-line {
+  background: #333;
 }
 
 .accent-bar {
@@ -158,9 +166,6 @@ body {
   transition: filter 0.6s ease;
 }
 
-html[data-theme="dark"] .word-image {
-  filter: brightness(0.9);
-}
 
 .word-image.loaded {
   display: inline-block;
@@ -173,6 +178,10 @@ html[data-theme="dark"] .word-image {
   text-transform: lowercase;
   line-height: 1.05;
   color: #1a1a1a;
+}
+
+html[data-theme="dark"] #word {
+  color: #f0ece4;
 }
 
 .ipa {
