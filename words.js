@@ -35,7 +35,7 @@ const WORDS = [
   { word: "mellifluous", pos: "adjective", definition: "Sweet or musical; pleasant to hear.", example: "The narrator's mellifluous voice made even the instructions sound poetic.",
     etymology: "From Latin 'mel' (honey) + 'fluere' (to flow) — literally 'flowing with honey'.",
     translations: {
-      es: { word: "melifluo", pos: "adjetivo", definition: "Dulce y agradable al oído.", example: "La voz melifluа del narrador hacía que hasta las instrucciones sonaran poéticas." },
+      es: { word: "melifluo", pos: "adjetivo", definition: "Dulce y agradable al oído.", example: "La voz melifluo del narrador hacía que hasta las instrucciones sonaran poéticas." },
       fr: { word: "mélodieux", pos: "adjectif", definition: "Doux et agréable à entendre.", example: "La voix mélodieuse du narrateur rendait même les instructions poétiques." },
       de: { word: "wohlklingend", pos: "Adjektiv", definition: "Süß oder musikalisch; angenehm zu hören.", example: "Die wohlklingende Stimme des Erzählers ließ sogar Anweisungen poetisch klingen." },
       nl: { word: "honingzoet", pos: "bijvoeglijk naamwoord", definition: "Zoetvloeiend en aangenaam om te horen.", example: "De honingzoete stem van de verteller liet zelfs de instructies poëtisch klinken." }
