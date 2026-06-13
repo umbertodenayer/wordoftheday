@@ -57,6 +57,13 @@ body {
   font-weight: 500;
 }
 
+.accent-bar {
+  width: 40px;
+  height: 3px;
+  background: #c4714a;
+  margin: 0 0 16px;
+}
+
 .word-image {
   display: none;
   width: 100%;
@@ -77,6 +84,7 @@ body {
   margin: 0 0 16px;
   text-transform: lowercase;
   line-height: 1.1;
+  color: #1a1a1a;
 }
 
 .pos {
@@ -137,10 +145,13 @@ body {
 }
 
 .date {
-  font-size: 13px;
+  font-size: 11px;
   color: var(--muted);
-  margin: 0;
-  letter-spacing: 0.05em;
+  margin: 16px 0 0;
+  padding-top: 16px;
+  border-top: 1px solid var(--border);
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
 }
 
 .error {
