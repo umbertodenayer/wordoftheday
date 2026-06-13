@@ -18,15 +18,18 @@
       <div class="topbar">
         <p class="masthead"><span class="masthead-word">Word</span><span class="masthead-rest">of the day</span></p>
         <div class="masthead-line"></div>
-        <button id="theme-toggle" class="theme-toggle" aria-label="Toggle dark mode">
-          <svg id="sun-icon" class="theme-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <circle cx="12" cy="12" r="4"/>
-            <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/>
-          </svg>
-          <svg id="moon-icon" class="theme-icon hidden" viewBox="0 0 24 24" fill="currentColor">
-            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
-          </svg>
-        </button>
+        <div class="auth-wrap">
+          <button id="user-btn" class="user-btn" aria-label="Account">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="8" r="4"></circle>
+              <path d="M4 20c0-4 3.5-6 8-6s8 2 8 6"></path>
+            </svg>
+            <span id="auth-dot" class="auth-dot hidden"></span>
+          </button>
+          <div id="auth-dropdown" class="auth-dropdown hidden">
+            <button id="signout-btn" class="auth-dropdown-item">Sign out</button>
+          </div>
+        </div>
       </div>
       <div class="content-middle">
         <div class="accent-bar"></div>
@@ -67,20 +70,25 @@
     </div>
   </section>
 
-  <section class="pronunciation hidden" id="pronunciation-section">
-    <p class="label section-label">Pronunciation</p>
-    <button id="pronunciation-btn" class="pronunciation-btn" aria-label="Play pronunciation">
-      <svg id="play-icon" class="icon" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
-      <svg id="pause-icon" class="icon hidden" viewBox="0 0 24 24" fill="currentColor"><path d="M6 5h4v14H6zM14 5h4v14h-4z"/></svg>
-    </button>
-  </section>
+  <div id="auth-modal-overlay" class="auth-overlay hidden">
+    <div class="auth-modal">
+      <button id="auth-close" class="auth-close" aria-label="Close">×</button>
+      <h2 id="auth-title" class="auth-title">Log In</h2>
+      <form id="auth-form">
+        <input type="email" id="auth-email" class="auth-input" placeholder="Email" autocomplete="email" required>
+        <input type="password" id="auth-password" class="auth-input" placeholder="Password" autocomplete="current-password" required>
+        <p id="auth-error" class="auth-error hidden"></p>
+        <button type="submit" class="auth-submit" id="auth-submit">Log In</button>
+      </form>
+      <p class="auth-toggle">
+        <span id="auth-toggle-text">Don't have an account?</span>
+        <a href="#" id="auth-toggle-link">Sign up</a>
+      </p>
+    </div>
+  </div>
 
-  <section class="hear-it hidden" id="hear-it-section">
-    <p class="label section-label">Hear It</p>
-    <div id="youglish-widget"></div>
-  </section>
-
-  <script src="https://youglish.com/apiv2/youglish.js" async></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="auth.js"></script>
   <script src="script.js"></script>
 </body>
 </html>
