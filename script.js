@@ -8,6 +8,10 @@ const sourceEl = document.getElementById('source');
 const dateEl = document.getElementById('date');
 const imageEl = document.getElementById('word-image');
 
+let currentWord = null;
+let ygWidget = null;
+let hearItTriggered = false;
+
 function todaySeed() {
   const now = new Date();
   return Date.UTC(now.getFullYear(), now.getMonth(), now.getDate()) / 86400000;
@@ -19,6 +23,10 @@ function cacheKey() {
 
 function render(data) {
   definitionEl.className = 'definition';
+  currentWord = data.word;
+  if (ygWidget && hearItTriggered) {
+    ygWidget.fetch(currentWord, 'english');
+  }
   wordEl.textContent = data.word;
   ipaEl.textContent = data.ipa;
   posEl.textContent = data.partOfSpeech;
@@ -153,3 +161,45 @@ const cardObserver = new IntersectionObserver((entries) => {
 }, { threshold: 0.2 });
 
 wildCards.forEach((card) => cardObserver.observe(card));
+
+const hearItSection = document.querySelector('.hear-it');
+const youglishWidgetEl = document.getElementById('youglish-widget');
+const hearItFallback = document.getElementById('hear-it-fallback');
+
+function onYouglishAPIReady() {
+  ygWidget = new YG.Widget('youglish-widget', {
+    width: 800,
+    components: 51,
+    events: {
+      onFetchDone: (e) => {
+        if (e.totalResult === 0) {
+          youglishWidgetEl.classList.add('hidden');
+          hearItFallback.classList.add('visible');
+        } else {
+          youglishWidgetEl.classList.remove('hidden');
+          hearItFallback.classList.remove('visible');
+        }
+      }
+    }
+  });
+
+  if (currentWord && hearItTriggered) {
+    ygWidget.fetch(currentWord, 'english');
+  }
+}
+
+window.onYouglishAPIReady = onYouglishAPIReady;
+
+const hearItObserver = new IntersectionObserver((entries) => {
+  entries.forEach((entry) => {
+    if (entry.isIntersecting && !hearItTriggered) {
+      hearItTriggered = true;
+      if (ygWidget && currentWord) {
+        ygWidget.fetch(currentWord, 'english');
+      }
+      hearItObserver.disconnect();
+    }
+  });
+}, { threshold: 0.3 });
+
+hearItObserver.observe(hearItSection);
