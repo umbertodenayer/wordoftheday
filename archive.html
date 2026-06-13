@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Archive — Word of the Day</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .archive-page {
+      min-height: 100vh;
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 64px 40px;
+    }
+    .archive-topbar {
+      display: flex;
+      align-items: baseline;
+      gap: 12px;
+      margin-bottom: 8px;
+    }
+    .archive-subtitle {
+      font-family: 'Fraunces', serif;
+      font-size: 2rem;
+      font-weight: 400;
+      color: var(--text);
+      margin: 0 0 48px;
+      letter-spacing: 0.02em;
+    }
+    .archive-list {
+      display: flex;
+      flex-direction: column;
+    }
+    .archive-row {
+      border-top: 1px solid var(--border);
+      cursor: pointer;
+    }
+    .archive-row:last-child {
+      border-bottom: 1px solid var(--border);
+    }
+    .archive-row-main {
+      display: grid;
+      grid-template-columns: 110px 1fr auto;
+      align-items: baseline;
+      gap: 24px;
+      padding: 16px 0;
+      transition: opacity 0.15s ease;
+    }
+    .archive-row:hover .archive-row-main {
+      opacity: 0.75;
+    }
+    .archive-date {
+      font-size: 11px;
+      color: var(--muted);
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      flex-shrink: 0;
+    }
+    .archive-word {
+      font-family: 'Fraunces', serif;
+      font-size: 1.35rem;
+      font-weight: 400;
+      color: var(--terracotta);
+      text-transform: lowercase;
+    }
+    .archive-pos {
+      font-size: 12px;
+      color: var(--muted);
+      font-style: italic;
+      white-space: nowrap;
+    }
+    .archive-definition {
+      padding: 0 0 16px 134px;
+      font-size: 15px;
+      line-height: 1.7;
+      color: var(--text);
+      display: none;
+    }
+    .archive-row.open .archive-definition {
+      display: block;
+    }
+    .archive-loading {
+      padding: 48px 0;
+      font-size: 13px;
+      color: var(--muted);
+    }
+    .archive-back {
+      display: inline-block;
+      font-size: 11px;
+      color: var(--muted);
+      text-decoration: none;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      margin-bottom: 40px;
+      opacity: 0.6;
+      transition: opacity 0.2s ease;
+    }
+    .archive-back:hover { opacity: 1; }
+    @media (max-width: 600px) {
+      .archive-page { padding: 40px 24px; }
+      .archive-row-main { grid-template-columns: 80px 1fr; }
+      .archive-pos { display: none; }
+      .archive-definition { padding-left: 0; }
+    }
+  </style>
+</head>
+<body>
+  <div class="archive-page">
+    <div class="archive-topbar">
+      <p class="masthead"><span class="masthead-word">Word</span><span class="masthead-rest">of the day</span></p>
+      <div class="masthead-line"></div>
+      <button id="theme-toggle" class="theme-toggle" aria-label="Toggle dark mode">
+        <svg id="sun-icon" class="theme-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="4"/>
+          <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/>
+        </svg>
+        <svg id="moon-icon" class="theme-icon hidden" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+        </svg>
+      </button>
+    </div>
+    <h1 class="archive-subtitle">Archive</h1>
+    <div id="archive-list" class="archive-list">
+      <p class="archive-loading">Loading…</p>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script>
+    const themeToggle = document.getElementById("theme-toggle");
+    const sunIcon = document.getElementById("sun-icon");
+    const moonIcon = document.getElementById("moon-icon");
+
+    function applyTheme(theme, animate) {
+      document.documentElement.setAttribute("data-theme", theme);
+      const showIcon = theme === "dark" ? moonIcon : sunIcon;
+      const hideIcon = theme === "dark" ? sunIcon : moonIcon;
+      if (animate) {
+        hideIcon.classList.add("spin-out");
+        setTimeout(() => {
+          hideIcon.classList.add("hidden");
+          hideIcon.classList.remove("spin-out");
+          showIcon.classList.remove("hidden");
+          showIcon.classList.add("spin-out");
+          requestAnimationFrame(() => showIcon.classList.remove("spin-out"));
+        }, 300);
+      } else {
+        hideIcon.classList.add("hidden");
+        showIcon.classList.remove("hidden");
+      }
+    }
+
+    const savedTheme = localStorage.getItem("wordOfTheDay:theme") || "light";
+    applyTheme(savedTheme, false);
+
+    themeToggle.addEventListener("click", () => {
+      const current = document.documentElement.getAttribute("data-theme") || "light";
+      const next = current === "dark" ? "light" : "dark";
+      localStorage.setItem("wordOfTheDay:theme", next);
+      applyTheme(next, true);
+    });
+
+    const SUPABASE_URL = "https://lanmsexkozkrttiydtsm.supabase.co";
+    const SUPABASE_ANON_KEY = "sb_publishable_c8SjUvXE8zTZIEgB6i9hYw_uJR_4i37";
+    const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+    const listEl = document.getElementById("archive-list");
+
+    function formatDate(dateStr) {
+      const [y, m, d] = dateStr.split("-").map(Number);
+      return new Date(Date.UTC(y, m - 1, d)).toLocaleDateString("en-US", {
+        month: "short", day: "numeric", year: "numeric"
+      });
+    }
+
+    async function loadArchive() {
+      const { data, error } = await supabase
+        .from("word_archive")
+        .select("date, word, pos, definition")
+        .order("date", { ascending: false });
+
+      if (error || !data || data.length === 0) {
+        listEl.innerHTML = "<p class=\"archive-loading\">No archived words yet.</p>";
+        return;
+      }
+
+      listEl.innerHTML = data.map(row => `
+        <div class="archive-row">
+          <div class="archive-row-main">
+            <span class="archive-date">${formatDate(row.date)}</span>
+            <span class="archive-word">${row.word}</span>
+            <span class="archive-pos">${row.pos || ""}</span>
+          </div>
+          <div class="archive-definition">${row.definition || ""}</div>
+        </div>
+      `).join("");
+
+      listEl.querySelectorAll(".archive-row").forEach(row => {
+        row.addEventListener("click", () => row.classList.toggle("open"));
+      });
+    }
+
+    loadArchive();
+  </script>
+</body>
+</html>
