@@ -116,3 +116,40 @@ dateEl.textContent = new Date().toLocaleDateString('en-US', {
 
 load();
 loadImage();
+
+const hero = document.getElementById('hero');
+
+function updateHeroOnScroll() {
+  const heroHeight = hero.offsetHeight || window.innerHeight;
+  const progress = Math.min(1, Math.max(0, window.scrollY / heroHeight));
+  const scale = 1 - progress * 0.15;
+  const opacity = 1 - progress;
+  hero.style.transform = `scale(${scale})`;
+  hero.style.opacity = opacity;
+}
+
+let heroTicking = false;
+window.addEventListener('scroll', () => {
+  if (!heroTicking) {
+    requestAnimationFrame(() => {
+      updateHeroOnScroll();
+      heroTicking = false;
+    });
+    heroTicking = true;
+  }
+});
+updateHeroOnScroll();
+
+const wildCards = document.querySelectorAll('.wild-card');
+const cardObserver = new IntersectionObserver((entries) => {
+  entries.forEach((entry) => {
+    if (entry.isIntersecting) {
+      const index = Array.from(wildCards).indexOf(entry.target);
+      entry.target.style.transitionDelay = `${index * 0.15}s`;
+      entry.target.classList.add('visible');
+      cardObserver.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.2 });
+
+wildCards.forEach((card) => cardObserver.observe(card));
