@@ -21,6 +21,10 @@ html[data-theme="dark"] {
 
 * { box-sizing: border-box; }
 
+.hidden {
+  display: none;
+}
+
 html, body {
   transition: background-color 1.4s ease, color 1.4s ease;
 }
