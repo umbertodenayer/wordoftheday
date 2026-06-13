@@ -48,13 +48,15 @@ let currentWord = null;
 let ygWidget = null;
 let hearItTriggered = false;
 
+const CACHE_VERSION = 'v2';
+
 function todaySeed() {
   const now = new Date();
   return Date.UTC(now.getFullYear(), now.getMonth(), now.getDate()) / 86400000;
 }
 
 function cacheKey() {
-  return `wordOfTheDay:${todaySeed()}`;
+  return `wordOfTheDay:${CACHE_VERSION}:${todaySeed()}`;
 }
 
 function render(data) {
@@ -130,7 +132,7 @@ async function load(force = false) {
 }
 
 function imageCacheKey() {
-  return `wordOfTheDay:image:${todaySeed()}`;
+  return `wordOfTheDay:${CACHE_VERSION}:image:${todaySeed()}`;
 }
 
 async function loadImage() {
@@ -245,7 +247,7 @@ const pauseIcon = document.getElementById('pause-icon');
 let pronunciationAudio = null;
 
 function audioCacheKey() {
-  return `wordOfTheDay:audio:${todaySeed()}`;
+  return `wordOfTheDay:${CACHE_VERSION}:audio:${todaySeed()}`;
 }
 
 async function loadPronunciation() {
