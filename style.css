@@ -21,10 +21,6 @@ html[data-theme="dark"] {
 
 * { box-sizing: border-box; }
 
-.hidden {
-  display: none;
-}
-
 html, body {
   transition: background-color 1.4s ease, color 1.4s ease;
 }
@@ -249,6 +245,40 @@ body {
   font-size: 1.5rem;
   font-weight: 600;
   color: var(--text);
+}
+
+.my-words-list {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  max-height: 360px;
+  overflow-y: auto;
+}
+
+.my-words-item {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.my-words-word {
+  font-family: 'Fraunces', serif;
+  font-size: 1.1rem;
+  color: var(--terracotta);
+  text-transform: lowercase;
+}
+
+.my-words-date {
+  font-size: 12px;
+  color: var(--muted);
+  flex-shrink: 0;
+}
+
+.my-words-empty {
+  margin: 0;
+  font-size: 13px;
+  color: var(--muted);
 }
 
 .auth-form {
@@ -614,10 +644,61 @@ html[data-theme="dark"] #word {
   display: none;
 }
 
+.pronunciation-row {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  max-width: 800px;
+}
+
 .audio-player {
   display: flex;
   align-items: center;
   gap: 20px;
+}
+
+.rating-spacer {
+  flex: 1;
+}
+
+.rating {
+  display: flex;
+  align-items: flex-start;
+  gap: 28px;
+}
+
+.rating-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+}
+
+.thumb-btn {
+  border: none;
+  background: none;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--muted);
+  cursor: pointer;
+  transition: color 0.2s ease;
+}
+
+.thumb-btn svg {
+  width: 20px;
+  height: 20px;
+}
+
+.thumb-btn.active,
+.thumb-btn:hover {
+  color: var(--terracotta);
+}
+
+.rating-count {
+  font-size: 11px;
+  color: var(--muted);
 }
 
 .pronunciation-btn {
