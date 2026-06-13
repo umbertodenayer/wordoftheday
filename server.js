@@ -15,11 +15,20 @@ function todaySeed() {
 }
 
 const app = express();
+const cache = new Map(); // key: `${seed}:${lang}` -> word data
 
 app.get('/api/word', async (req, res) => {
   const lang = String(req.query.lang || 'en');
   const languageName = LANG_NAMES[lang] || LANG_NAMES.en;
   const seed = todaySeed();
+
+  const cacheKey = `${seed}:${lang}`;
+  const cached = cache.get(cacheKey);
+  if (cached) {
+    res.set('Cache-Control', 's-maxage=3600, stale-while-revalidate');
+    res.json(cached);
+    return;
+  }
 
   const prompt = `Today's date seed is ${seed} (days since epoch, UTC). Using this seed so the result is deterministic and identical for everyone asking on this date, pick one interesting, uncommon word in ${languageName}. Respond with ONLY a JSON object (no markdown, no code fences) with these exact keys:
 {
@@ -56,6 +65,11 @@ app.get('/api/word', async (req, res) => {
     let text = json.content[0].text.trim();
     text = text.replace(/^```(?:json)?\s*/i, '').replace(/```\s*$/, '').trim();
     const data = JSON.parse(text);
+
+    cache.set(cacheKey, data);
+    if (cache.size > 50) {
+      cache.delete(cache.keys().next().value);
+    }
 
     res.set('Cache-Control', 's-maxage=3600, stale-while-revalidate');
     res.json(data);
