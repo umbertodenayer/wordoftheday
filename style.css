@@ -397,12 +397,6 @@ html[data-theme="dark"] #word {
 }
 
 .hear-it.hidden {
-  min-height: 0;
-  padding: 0;
-  overflow: hidden;
-}
-
-.hear-it.hidden > * {
   display: none;
 }
 
