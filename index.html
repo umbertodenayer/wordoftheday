@@ -52,6 +52,7 @@
             <div id="dropdown-signed-in" class="hidden">
               <p id="user-email" class="user-dropdown-email"></p>
               <button id="my-words-btn" class="user-dropdown-item">My Words</button>
+              <button id="my-stats-btn" class="user-dropdown-item">My Stats</button>
               <button id="settings-btn" class="user-dropdown-item">Settings</button>
               <div class="user-dropdown-divider"></div>
               <button id="open-change-password-btn" class="user-dropdown-item">Change Password</button>
@@ -235,6 +236,32 @@
       <button class="auth-modal-close" aria-label="Close">&times;</button>
       <h2 class="auth-modal-title">My Words</h2>
       <div id="my-words-list" class="my-words-list"></div>
+    </div>
+  </div>
+
+  <div id="my-stats-modal" class="auth-modal hidden">
+    <div class="auth-modal-backdrop"></div>
+    <div class="auth-modal-card">
+      <button class="auth-modal-close" aria-label="Close">&times;</button>
+      <h2 class="auth-modal-title">My Stats</h2>
+      <div class="stats-grid">
+        <div class="stat-card">
+          <p id="stat-streak" class="stat-number">0</p>
+          <p class="stat-label">Day streak</p>
+        </div>
+        <div class="stat-card">
+          <p id="stat-discovered" class="stat-number">0</p>
+          <p class="stat-label">Words discovered</p>
+        </div>
+        <div class="stat-card">
+          <p id="stat-liked" class="stat-number">0</p>
+          <p class="stat-label">Words liked</p>
+        </div>
+        <div class="stat-card">
+          <p id="stat-member-since" class="stat-number">—</p>
+          <p class="stat-label">Member since</p>
+        </div>
+      </div>
     </div>
   </div>
 
