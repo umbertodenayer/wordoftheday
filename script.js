@@ -61,13 +61,16 @@ if (window.supabase) {
   const userEmailEl = document.getElementById('user-email');
   const openSigninBtn = document.getElementById('open-signin-btn');
   const openSignupBtn = document.getElementById('open-signup-btn');
+  const openChangePasswordBtn = document.getElementById('open-change-password-btn');
   const signOutBtn = document.getElementById('sign-out-btn');
   const authToast = document.getElementById('auth-toast');
 
   const signinModal = document.getElementById('signin-modal');
   const signupModal = document.getElementById('signup-modal');
+  const changePasswordModal = document.getElementById('change-password-modal');
   const signinForm = document.getElementById('signin-form');
   const signupForm = document.getElementById('signup-form');
+  const changePasswordForm = document.getElementById('change-password-form');
 
   const showToast = (message) => {
     authToast.textContent = message;
@@ -131,6 +134,11 @@ if (window.supabase) {
     openModal(signupModal);
   });
 
+  openChangePasswordBtn.addEventListener('click', () => {
+    closeDropdown();
+    openModal(changePasswordModal);
+  });
+
   signinForm.addEventListener('submit', async (e) => {
     e.preventDefault();
     const [emailInput, passwordInput] = signinForm.querySelectorAll('.auth-input');
@@ -170,6 +178,30 @@ if (window.supabase) {
 
     closeModal(signupModal);
     showToast('Check your email to confirm your account before signing in.');
+  });
+
+  changePasswordForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const [newPasswordInput, confirmPasswordInput] = changePasswordForm.querySelectorAll('.auth-input');
+    const errorEl = changePasswordForm.querySelector('.auth-error');
+    errorEl.classList.add('hidden');
+
+    if (newPasswordInput.value !== confirmPasswordInput.value) {
+      errorEl.textContent = 'Passwords do not match.';
+      errorEl.classList.remove('hidden');
+      return;
+    }
+
+    const { error } = await supabase.auth.updateUser({ password: newPasswordInput.value });
+
+    if (error) {
+      errorEl.textContent = error.message;
+      errorEl.classList.remove('hidden');
+      return;
+    }
+
+    closeModal(changePasswordModal);
+    showToast('Password updated successfully.');
   });
 
   const updateUserUI = (session) => {

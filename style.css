@@ -316,6 +316,10 @@ body {
   display: none;
 }
 
+#change-password-form .auth-error {
+  color: var(--terracotta);
+}
+
 .auth-submit {
   font-family: 'Inter', system-ui, sans-serif;
   font-size: 14px;
