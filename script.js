@@ -390,6 +390,16 @@ async function fetchWordOfTheDay() {
   return response.json();
 }
 
+
+async function upsertToArchive(data) {
+  if (!sbClient) return;
+  const today = todayDateStr();
+  await sbClient.from('word_archive').upsert(
+    { date: today, word: data.word, pos: data.partOfSpeech, definition: data.definition },
+    { onConflict: 'date' }
+  );
+}
+
 async function load(force = false) {
   const key = cacheKey();
 
@@ -410,6 +420,7 @@ async function load(force = false) {
     const data = await fetchWordOfTheDay();
     localStorage.setItem(key, JSON.stringify(data));
     render(data);
+    upsertToArchive(data);
   } catch (e) {
     showError(`Failed to load word of the day: ${e.message}`);
   }
