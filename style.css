@@ -95,6 +95,14 @@ body {
   color: #1a1a1a;
 }
 
+.ipa {
+  font-family: 'Inter', system-ui, sans-serif;
+  font-weight: 300;
+  font-size: 15px;
+  color: #aaa;
+  letter-spacing: 0.02em;
+}
+
 .pos {
   color: var(--muted);
   font-style: italic;

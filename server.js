@@ -41,6 +41,7 @@ async function fetchWord() {
   const prompt = `Today's date seed is ${seed} (days since epoch, UTC). Using this seed so the result is deterministic and identical for everyone asking on this date, pick one interesting, uncommon word in English. Respond with ONLY a JSON object (no markdown, no code fences) with these exact keys:
 {
   "word": "the word",
+  "ipa": "the IPA phonetic transcription of the word, e.g. /səˈsɜːrəs/",
   "partOfSpeech": "its part of speech",
   "definition": "a clear definition",
   "etymology": "the word's etymology",
@@ -105,7 +106,7 @@ async function refreshWord() {
   const cacheKey = `${seed}`;
   const imageCacheKey = `image:${seed}`;
 
-  if (cache.has(cacheKey) && cache.has(imageCacheKey)) {
+  if (cache.has(cacheKey) && cache.has(imageCacheKey) && cache.get(cacheKey).ipa) {
     console.log(`Already cached for seed ${seed}, skipping regeneration`);
     return;
   }

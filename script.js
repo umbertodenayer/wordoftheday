@@ -1,4 +1,5 @@
 const wordEl = document.getElementById('word');
+const ipaEl = document.getElementById('ipa');
 const posEl = document.getElementById('pos');
 const definitionEl = document.getElementById('definition');
 const etymologyEl = document.getElementById('etymology');
@@ -19,6 +20,7 @@ function cacheKey() {
 function render(data) {
   definitionEl.className = 'definition';
   wordEl.textContent = data.word;
+  ipaEl.textContent = data.ipa;
   posEl.textContent = data.partOfSpeech;
   definitionEl.textContent = data.definition;
   etymologyEl.textContent = data.etymology;
@@ -28,6 +30,7 @@ function render(data) {
 
 function showError(msg) {
   wordEl.textContent = '';
+  ipaEl.textContent = '';
   posEl.textContent = '';
   etymologyEl.textContent = '';
   exampleEl.textContent = '';
@@ -38,6 +41,7 @@ function showError(msg) {
 
 function showLoading() {
   wordEl.textContent = '…';
+  ipaEl.textContent = '';
   posEl.textContent = '';
   definitionEl.className = 'definition';
   definitionEl.textContent = 'Loading...';
